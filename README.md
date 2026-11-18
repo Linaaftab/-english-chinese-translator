@@ -145,3 +145,32 @@ Please refer to the dataset license files and source dataset terms before redist
 Here is a preview of the LinguaBridge translation interface:
 
 ![LinguaBridge Application](linguabridge-screenshot.png)
+---
+
+## System Architecture
+
+```mermaid
+flowchart TD
+    A["User Interface<br/>templates/index.html"] -->|HTTP JSON Request| B["Flask Backend<br/>final_web_app.py"]
+
+    B --> C["Translation Route<br/>/translate"]
+    C --> D["EnglishChineseTranslator<br/>main.py"]
+
+    D --> E["Translation Rules<br/>translation_rules.csv"]
+    D --> F["Cultural Adaptations"]
+    D --> G["Character Voices"]
+    D --> H["Emotional Tone Patterns"]
+
+    I["Training Dataset<br/>OpenSubtitles CSV"] --> D
+
+    D --> J["Chinese Translation"]
+    J --> K["JSON Response"]
+    K --> A
+
+    B --> L["Translation History<br/>Last 50 Records"]
+    B --> M["Statistics & Testing"]
+
+    style A fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style B fill:#ede9fe,stroke:#7c3aed,color:#4c1d95
+    style D fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style J fill:#fef3c7,stroke:#d97706,color:#78350f

@@ -12,11 +12,11 @@
 <body>
     <h1> English   Chinese Translator</h1>
     <textarea id="textInput" placeholder="Enter English text..."></textarea>
-    <button onclick="translate()">Translate</button>
+    <button onclick="performTranslation()">Translate</button>
     <div id="result" class="result"></div>
     
     <script>
-        function translate() {
+        function performTranslation() {
             const text = document.getElementById('textInput').value;
             fetch('/translate', {
                 method: 'POST',
@@ -33,3 +33,4 @@
     </script>
 </body>
 </html>
+

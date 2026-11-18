@@ -1,36 +1,307 @@
-﻿<!DOCTYPE html>
-<html>
+﻿
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>English-Chinese Translator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English–Chinese Translator</title>
+
     <style>
-        body { font-family: Arial; margin: 50px; }
-        textarea { width: 100%; height: 100px; margin: 10px 0; }
-        button { padding: 10px 20px; background: blue; color: white; border: none; }
-        .result { margin-top: 20px; padding: 15px; background: #f0f0f0; }
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+        }
+
+        header {
+            background: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5eaf2;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 700;
+            color: #2457d6;
+        }
+
+        .tagline {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        main {
+            max-width: 1050px;
+            margin: 55px auto;
+            padding: 0 20px;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .intro h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .intro p {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        .translator {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(30, 50, 90, 0.07);
+        }
+
+        .panels {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            border: 1px solid #dce3ee;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 15px;
+            background: #f8faff;
+            border-bottom: 1px solid #e5eaf2;
+            font-weight: 600;
+        }
+
+        textarea {
+            width: 100%;
+            height: 220px;
+            padding: 18px;
+            border: none;
+            outline: none;
+            resize: vertical;
+            font-size: 17px;
+            font-family: inherit;
+        }
+
+        .output {
+            min-height: 220px;
+            padding: 18px;
+            font-size: 18px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .output:empty::before {
+            content: "Your Chinese translation will appear here...";
+            color: #a0aabc;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 22px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            border-radius: 9px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .translate-btn {
+            background: #2457d6;
+            color: white;
+            min-width: 150px;
+        }
+
+        .translate-btn:hover {
+            background: #1946b5;
+        }
+
+        .secondary-btn {
+            background: #edf2fa;
+            color: #334155;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #status {
+            margin-top: 15px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #8490a3;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+            .panels {
+                grid-template-columns: 1fr;
+            }
+
+            .intro h1 {
+                font-size: 27px;
+            }
+
+            header {
+                padding: 18px 5%;
+            }
+
+            main {
+                margin: 35px auto;
+            }
+        }
     </style>
 </head>
+
 <body>
-    <h1> English   Chinese Translator</h1>
-    <textarea id="textInput" placeholder="Enter English text..."></textarea>
-    <button onclick="performTranslation()">Translate</button>
-    <div id="result" class="result"></div>
-    
-    <script>
-        function performTranslation() {
-            const text = document.getElementById('textInput').value;
-            fetch('/translate', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({text: text})
-            })
-            .then(r => r.json())
-            .then(data => {
-                document.getElementById('result').innerHTML = 
-                    '<strong>English:</strong> ' + data.english + '<br>' +
-                    '<strong>Chinese:</strong> ' + data.chinese;
-            });
+
+<header>
+    <div class="brand">LinguaBridge</div>
+    <div class="tagline">English ↔ Chinese Translation</div>
+</header>
+
+<main>
+    <section class="intro">
+        <h1>Break Language Barriers</h1>
+        <p>Translate English into Chinese with your intelligent translation system.</p>
+    </section>
+
+    <section class="translator">
+        <div class="panels">
+
+            <div class="panel">
+                <div class="panel-header">🇬🇧 English</div>
+                <textarea id="textInput"
+                    placeholder="Enter English text here..."></textarea>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">🇨🇳 Chinese</div>
+                <div id="result" class="output"></div>
+            </div>
+
+        </div>
+
+        <div class="actions">
+            <button class="secondary-btn" onclick="clearText()">
+                Clear
+            </button>
+
+            <button class="translate-btn" id="translateBtn"
+                onclick="performTranslation()">
+                Translate →
+            </button>
+
+            <button class="secondary-btn" onclick="copyTranslation()">
+                Copy Translation
+            </button>
+        </div>
+
+        <div id="status" role="status" aria-live="polite"></div>
+    </section>
+</main>
+
+<footer>
+    English–Chinese Translator | AI Translation Project
+</footer>
+
+<script>
+    async function performTranslation() {
+        const text = document.getElementById("textInput").value.trim();
+        const result = document.getElementById("result");
+        const status = document.getElementById("status");
+        const button = document.getElementById("translateBtn");
+
+        if (!text) {
+            status.textContent = "Please enter some English text first.";
+            return;
         }
-    </script>
+
+        button.disabled = true;
+        button.textContent = "Translating...";
+        status.textContent = "Please wait...";
+
+        try {
+            const response = await fetch("/translate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ text: text })
+            });
+
+            if (!response.ok) {
+                throw new Error("Translation request failed.");
+            }
+
+            const data = await response.json();
+
+            if (data.chinese === undefined) {
+                throw new Error(data.error || "Translation was unsuccessful.");
+            }
+
+            result.textContent = data.chinese;
+            status.textContent = "Translation completed successfully.";
+
+        } catch (error) {
+            status.textContent = error.message || "Something went wrong.";
+        } finally {
+            button.disabled = false;
+            button.textContent = "Translate →";
+        }
+    }
+
+    function clearText() {
+        document.getElementById("textInput").value = "";
+        document.getElementById("result").textContent = "";
+        document.getElementById("status").textContent = "";
+    }
+
+    async function copyTranslation() {
+        const text = document.getElementById("result").textContent;
+        const status = document.getElementById("status");
+
+        if (!text) {
+            status.textContent = "There is no translation to copy.";
+            return;
+        }
+
+        try {
+            await navigator.clipboard.writeText(text);
+            status.textContent = "Translation copied successfully.";
+        } catch (error) {
+            status.textContent = "Could not copy. Please select the translation manually.";
+        }
+    }
+</script>
+
 </body>
 </html>
-

@@ -1,0 +1,23 @@
+{
+  "protagonist": {
+    "intense": "！",
+    "emotional": "！",
+    "calm": "。",
+    "neutral": "。",
+    "description": "Heroic, determined voice"
+  },
+  "antagonist": {
+    "intense": "！",
+    "emotional": "！",
+    "calm": "。",
+    "neutral": "。",
+    "description": "Villainous, menacing voice"
+  },
+  "narrator": {
+    "intense": "",
+    "emotional": "",
+    "calm": "",
+    "neutral": "",
+    "description": "Neutral, informative voice"
+  }
+}

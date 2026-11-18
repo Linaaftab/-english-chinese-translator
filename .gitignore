@@ -1,0 +1,4 @@
+﻿__pycache__/
+*.py[cod]
+datasets/OpenSubtitles.en-zh_CN.en
+datasets/OpenSubtitles.en-zh_CN.zh_CN

@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>English-Chinese Translator</title>
+    <style>
+        body { font-family: Arial; margin: 50px; }
+        textarea { width: 100%; height: 100px; margin: 10px 0; }
+        button { padding: 10px 20px; background: blue; color: white; border: none; }
+        .result { margin-top: 20px; padding: 15px; background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1> English   Chinese Translator</h1>
+    <textarea id="textInput" placeholder="Enter English text..."></textarea>
+    <button onclick="translate()">Translate</button>
+    <div id="result" class="result"></div>
+    
+    <script>
+        function translate() {
+            const text = document.getElementById('textInput').value;
+            fetch('/translate', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({text: text})
+            })
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('result').innerHTML = 
+                    '<strong>English:</strong> ' + data.english + '<br>' +
+                    '<strong>Chinese:</strong> ' + data.chinese;
+            });
+        }
+    </script>
+</body>
+</html>

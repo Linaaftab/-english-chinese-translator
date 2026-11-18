@@ -138,4 +138,10 @@ GitHub: https://github.com/Linaaftab
 
 ## 📄 License
 
-Please refer to the dataset license files and source dataset terms before redistributing dataset content.
+Please refer to the dataset license files and source dataset terms before redistributing dataset content.---
+
+## Application Preview
+
+Here is a preview of the LinguaBridge translation interface:
+
+![LinguaBridge Application](linguabridge-screenshot.png)
